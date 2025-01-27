@@ -1,4 +1,4 @@
-using grid from '../../../GriglieAssortimento/griglieassortimento_backend/db/src/schema';
+using grid from '../db/schema';
 
 service CatalogService {
     @readonly
