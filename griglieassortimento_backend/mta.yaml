@@ -40,6 +40,28 @@ modules:
     requires:
       - name: griglieassortimento_backend-db
 
+  - name: griglieassortimento_backend-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: griglieassortimento_backend-destination
+        parameters:
+          content-target: true
+      - name: griglieassortimento_backend-auth
+        parameters:
+          service-key:
+            name: uaa_griglieassortimento-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Authentication: OAuth2UserTokenExchange
+              Name: uaa_griglieassortimento
+              ServiceInstanceName: griglieassortimento_backend-auth
+              ServiceKeyName: uaa_griglieassortimento-key
+              sap.cloud.service: griglieassortimento
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
 resources:
   - name: griglieassortimento_backend-auth
     type: org.cloudfoundry.managed-service
@@ -59,11 +81,6 @@ resources:
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
-      service-plan: lite
-  - name: griglieassortimento_backend-logging
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: application-logs
       service-plan: lite
   - name: griglieassortimento_backend-autoscaler
     type: org.cloudfoundry.managed-service
